@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>나, 교사 사용 설명서</title>
+  <meta name="description" content="나는 어떤 교사일까? 80문항으로 교직생활 속 나의 성향과 사용법을 확인해보세요.">
+
+  <!-- GitHub Pages에 아래 두 파일을 함께 올리는 구성을 기준으로 한 공개 OG 주소입니다. -->
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:site_name" content="나, 교사 사용 설명서">
+  <meta property="og:title" content="나, 교사 사용 설명서">
+  <meta property="og:description" content="나는 어떤 교사일까? 교직생활 속 나의 성향과 사용법을 확인해보세요.">
+  <meta property="og:url" content="https://bjh4042.github.io/teacher-mbti-share/">
+  <meta property="og:image" content="https://bjh4042.github.io/teacher-mbti-share/teacher-mbti-og.png">
+  <meta property="og:image:secure_url" content="https://bjh4042.github.io/teacher-mbti-share/teacher-mbti-og.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="남녀 교사 캐릭터가 함께 있는 나, 교사 사용 설명서 대표 이미지">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="나, 교사 사용 설명서">
+  <meta name="twitter:description" content="나는 어떤 교사일까? 교직생활 속 나의 성향과 사용법을 확인해보세요.">
+  <meta name="twitter:image" content="https://bjh4042.github.io/teacher-mbti-share/teacher-mbti-og.png">
+
+  <style>
+    :root{--accent:#2864f0;--ink:#17191d;--muted:#707781;--line:#e6e9ef}
+    *{box-sizing:border-box}
+    html{-webkit-text-size-adjust:100%}
+    body{margin:0;min-height:100vh;min-height:100dvh;display:grid;place-items:center;padding:22px;background:#f4f6f9;color:var(--ink);font-family:system-ui,-apple-system,'Segoe UI','Malgun Gothic',sans-serif}
+    main{width:min(100%,460px);overflow:hidden;border:1px solid var(--line);border-radius:24px;background:#fff;box-shadow:0 20px 55px rgba(24,34,55,.1)}
+    img{display:block;width:100%;height:auto;aspect-ratio:1200/630;object-fit:cover}
+    section{padding:24px 22px calc(22px + env(safe-area-inset-bottom));text-align:center}
+    .badge{display:inline-flex;align-items:center;min-height:28px;padding:0 10px;border-radius:99px;background:#edf3ff;color:var(--accent);font-size:.72rem;font-weight:850}
+    h1{margin:13px 0 7px;font-size:1.45rem;letter-spacing:-.045em}
+    p{margin:0;color:var(--muted);font-size:.88rem;line-height:1.65;word-break:keep-all}
+    a{display:flex;align-items:center;justify-content:center;min-height:50px;margin-top:18px;border-radius:13px;background:var(--accent);color:#fff;font-size:.9rem;font-weight:800;text-decoration:none}
+  </style>
+</head>
+<body>
+  <main>
+    <img src="teacher-mbti-og.png" alt="나, 교사 사용 설명서">
+    <section>
+      <span class="badge">교직생활 성향 테스트</span>
+      <h1>검사 화면으로 이동하고 있어요</h1>
+      <p>자동으로 이동하지 않으면 아래 버튼을 눌러주세요.</p>
+      <a id="startLink" href="https://script.google.com/macros/s/AKfycbxeu-8G4hIXLqfGkIUo9-Rsdnt-DH4T2HNaCJIf-xx6U93mLPwN3B_bHTnV_mkh6pEHHg/exec">검사 시작하기</a>
+    </section>
+  </main>
+
+  <script>
+    const APP_URL = document.getElementById('startLink').href;
+    window.setTimeout(() => window.location.replace(APP_URL), 350);
+  </script>
+</body>
+</html>
