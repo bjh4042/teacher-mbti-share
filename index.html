@@ -35,7 +35,12 @@
     .badge{display:inline-flex;align-items:center;min-height:28px;padding:0 10px;border-radius:99px;background:#edf3ff;color:var(--accent);font-size:.72rem;font-weight:850}
     h1{margin:13px 0 7px;font-size:1.45rem;letter-spacing:-.045em}
     p{margin:0;color:var(--muted);font-size:.88rem;line-height:1.65;word-break:keep-all}
-    a{display:flex;align-items:center;justify-content:center;min-height:50px;margin-top:18px;border-radius:13px;background:var(--accent);color:#fff;font-size:.9rem;font-weight:800;text-decoration:none}
+    .actions{display:grid;gap:9px;margin-top:18px}
+    a,button{display:flex;align-items:center;justify-content:center;min-height:50px;border:0;border-radius:13px;font-family:inherit;font-size:.9rem;font-weight:800;text-decoration:none;cursor:pointer}
+    a{background:var(--accent);color:#fff}
+    button{background:#eef2f8;color:#343a44}
+    .kakao-tip{margin-top:14px;padding:13px 14px;border-radius:12px;background:#fff7e8;color:#8a5a13;font-size:.78rem;line-height:1.6;text-align:left}
+    [hidden]{display:none!important}
   </style>
 </head>
 <body>
@@ -43,15 +48,83 @@
     <img src="teacher-mbti-og.png" alt="나, 교사 사용 설명서">
     <section>
       <span class="badge">교직생활 성향 테스트</span>
-      <h1>검사 화면으로 이동하고 있어요</h1>
-      <p>자동으로 이동하지 않으면 아래 버튼을 눌러주세요.</p>
-      <a id="startLink" href="https://script.google.com/macros/s/AKfycbxeu-8G4hIXLqfGkIUo9-Rsdnt-DH4T2HNaCJIf-xx6U93mLPwN3B_bHTnV_mkh6pEHHg/exec">검사 시작하기</a>
+      <h1 id="statusTitle">검사 화면으로 이동하고 있어요</h1>
+      <p id="statusText">자동으로 이동하지 않으면 아래 버튼을 눌러주세요.</p>
+      <div class="actions">
+        <a id="startLink" href="https://script.google.com/macros/s/AKfycbxbA9G24Hfze9HGYKSsjKtxb1nPpi7e8XNQDnzwHeoe32ezboOqFeNyLBp7zwf6C66UUw/exec">검사 시작하기</a>
+        <button id="copyLink" type="button" hidden>Safari에서 열 주소 복사</button>
+      </div>
+      <p class="kakao-tip" id="kakaoTip" hidden>
+        주소를 복사한 뒤 Safari 주소창에 붙여넣어 주세요.<br>
+        또는 카카오톡 브라우저의 공유·메뉴 버튼에서 <b>다른 브라우저로 열기</b>를 선택해 주세요.
+      </p>
     </section>
   </main>
 
   <script>
-    const APP_URL = document.getElementById('startLink').href;
-    window.setTimeout(() => window.location.replace(APP_URL), 350);
+    const APP_BASE_URL =
+      'https://script.google.com/macros/s/AKfycbxbA9G24Hfze9HGYKSsjKtxb1nPpi7e8XNQDnzwHeoe32ezboOqFeNyLBp7zwf6C66UUw/exec';
+
+    const sourceParams = new URLSearchParams(window.location.search);
+    const appParams = new URLSearchParams();
+
+    ['page','r','p','data'].forEach(key => {
+      const value = sourceParams.get(key);
+      if(value) appParams.set(key,value);
+    });
+
+    if(!appParams.has('page') && appParams.has('r')){
+      appParams.set('page','result');
+    }
+
+    const APP_URL = APP_BASE_URL +
+      (appParams.toString() ? '?' + appParams.toString() : '');
+
+    const startLink = document.getElementById('startLink');
+    const copyLink = document.getElementById('copyLink');
+    const statusTitle = document.getElementById('statusTitle');
+    const statusText = document.getElementById('statusText');
+    const kakaoTip = document.getElementById('kakaoTip');
+    const isKakaoInApp = /KAKAOTALK/i.test(navigator.userAgent || '');
+
+    startLink.href = APP_URL;
+
+    async function copyLandingUrl(){
+      const url = window.location.href;
+
+      try{
+        if(navigator.clipboard && window.isSecureContext){
+          await navigator.clipboard.writeText(url);
+        }else{
+          const textarea = document.createElement('textarea');
+          textarea.value = url;
+          textarea.setAttribute('readonly','');
+          textarea.style.position = 'fixed';
+          textarea.style.opacity = '0';
+          document.body.appendChild(textarea);
+          textarea.select();
+          if(!document.execCommand('copy')) throw new Error('copy failed');
+          textarea.remove();
+        }
+
+        copyLink.textContent = '복사됐어요 · Safari에 붙여넣기';
+      }catch(error){
+        window.prompt('아래 주소를 복사해 Safari에서 열어주세요.',url);
+      }
+    }
+
+    copyLink.addEventListener('click',copyLandingUrl);
+
+    if(isKakaoInApp){
+      statusTitle.textContent = 'Safari에서 열어주세요';
+      statusText.textContent =
+        '아이폰 카카오톡 안에서는 검사 화면이 열리지 않을 수 있습니다.';
+      startLink.textContent = '검사 페이지 열어보기';
+      copyLink.hidden = false;
+      kakaoTip.hidden = false;
+    }else{
+      window.setTimeout(() => window.location.replace(APP_URL),500);
+    }
   </script>
 </body>
 </html>
